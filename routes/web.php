@@ -15,7 +15,7 @@
 // });
 
 Route::get('/', function () {
-    return "aaaa";
+    return "laravel";
 });
 
 Route::get('/data', 'DatumController@index');

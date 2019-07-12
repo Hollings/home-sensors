@@ -12,6 +12,19 @@ class DatumController extends Controller
     }
 
     public function saveData(Request $request){
-    	return $request->all();
+
+ 
+		$d = new Datum;
+		$d->name='temp';
+		$d->value=$request->temperature;
+		$d->save();
+
+		$d = new Datum;
+		$d->name='humid';
+		$d->value=$request->humidity;
+		$d->save();
+
+		return "Success";
+
     }
 }
