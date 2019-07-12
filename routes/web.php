@@ -19,3 +19,4 @@ Route::get('/', function () {
 });
 
 
+Route::post('/data', 'DatumController@saveData');
