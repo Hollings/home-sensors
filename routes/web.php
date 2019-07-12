@@ -18,5 +18,5 @@ Route::get('/', function () {
     return "aaaa";
 });
 
-
+Route::get('/data', 'DatumController@index');
 Route::post('/data', 'DatumController@saveData');
