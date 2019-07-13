@@ -17,12 +17,12 @@ class DatumController extends Controller
 
  
 		$d = new Datum;
-		$d->name='temp';
+		$d->name='temperature';
 		$d->value=$request->temperature;
 		$d->save();
 
 		$d = new Datum;
-		$d->name='humid';
+		$d->name='humidity';
 		$d->value=$request->humidity;
 		$d->save();
 
