@@ -14,9 +14,7 @@
 //  return view('combat');
 // });
 
-Route::get('/', function () {
-    return "laravel";
-});
+Route::get('/', 'ChartController@index');
 
 Route::get('/data', 'DatumController@index');
 Route::post('/data', 'DatumController@saveData');

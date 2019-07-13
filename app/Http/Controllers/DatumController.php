@@ -7,6 +7,8 @@ use App\Datum;
 
 class DatumController extends Controller
 {
+	 protected $dates = ['created_at'];
+
 	public function index(){
     	return Datum::all();
     }
