@@ -24,8 +24,6 @@ class ChartController extends Controller
             return date('H',strtotime($reg->created_at));
         });
 
-        dump($humidityData);
-
         $hourlyHumidityData = collect([]);
         foreach ($humidityData as $key => $value) {
             $hourlyHumidityData->push($value->avg('value'));
@@ -37,11 +35,8 @@ class ChartController extends Controller
             $hourlyTemperatureData->push($value->avg('value'));
         }
 
-
     	$chart->labels($labels);
 
-
-       
     	$chart->dataset("Humidity", 'line', $hourlyHumidityData)->color('#6dbed6');
     	$chart->dataset("Temperature", 'line', $hourlyTemperatureData)->color("#ffb6b6");
 
