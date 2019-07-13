@@ -40,7 +40,8 @@ class ChartController extends Controller
     	$chart->dataset("Humidity", 'line', $hourlyHumidityData)->color('#6dbed6')->options([]);
     	$chart->dataset("Temperature", 'line', $hourlyTemperatureData)->color("#ffb6b6")->options([]);
 
-    	return view('charts', compact('chart'));
+        $current = ['humidity' => Datum::latest()->where('name','humidity')->first(), 'temperature' => Datum::latest()->where('name','temperature')->first()] ;
+    	return view('charts', compact('chart','current'));
     }
 
 }
