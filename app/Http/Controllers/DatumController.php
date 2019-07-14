@@ -19,11 +19,13 @@ class DatumController extends Controller
 		$d = new Datum;
 		$d->name='temperature';
 		$d->value=$request->temperature;
+		$d->device = $request->device;
 		$d->save();
 
 		$d = new Datum;
 		$d->name='humidity';
 		$d->value=$request->humidity;
+		$d->device = $request->device;
 		$d->save();
 
 		return "Success";
