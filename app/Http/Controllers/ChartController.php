@@ -10,38 +10,46 @@ class ChartController extends Controller
 {
     
     public function index() {
-    	$chart = new Temperature;
-
-
-
-    	$labels = collect([]);
-
-        $humidityData = Datum::where('name','humidity')->get()->groupBy(function($reg){
-            return date('H',strtotime($reg->created_at));
-        });
-
-        $temperatureData = Datum::where('name','temperature')->get()->groupBy(function($reg){
-            return date('H',strtotime($reg->created_at));
-        });
-
-        $hourlyHumidityData = collect([]);
-        foreach ($humidityData as $key => $value) {
-            $hourlyHumidityData->push($value->avg('value'));
-            $labels->push($value->first()->created_at->format('j-d g:00a'));
-        }
-
-        $hourlyTemperatureData = collect([]);
-        foreach ($temperatureData as $key => $value) {
-            $hourlyTemperatureData->push($value->avg('value'));
-        }
-
-    	$chart->labels($labels);
-
-    	$chart->dataset("Humidity", 'line', $hourlyHumidityData)->color('#6dbed6')->options([]);
-    	$chart->dataset("Temperature", 'line', $hourlyTemperatureData)->color("#ffb6b6")->options([]);
+   
+      
+        $charts = [];
+       $charts['humidity'] = $this->createChart('humidity', ['Strut B', 'Strut D']);
+       $charts['temperature'] = $this->createChart('temperature', ['Strut B', 'Strut D']);
 
         $current = ['humidity' => Datum::latest()->where('name','humidity')->first(), 'temperature' => Datum::latest()->where('name','temperature')->first()] ;
-    	return view('charts', compact('chart','current'));
+    	return view('charts', compact('charts','current'));
+    }
+
+
+
+    public function createChart(String $dataName, Array $devices, $groupBy = "H"){
+        $chart = new Temperature;
+        $labels = collect([]);
+        $data = Datum::where('name', $dataName)->get()->groupBy(function($reg) use ($groupBy){
+            return date($groupBy ,strtotime($reg->created_at));
+        });
+
+        // Generate labels
+        $hourlyData = collect([]);
+        foreach ($data as $key => $value) {
+            $labels->push($value->first()->created_at->format('j-d g:00a'));
+        }
+        $chart->labels($labels);
+
+        // Generate chart data for each device
+        $allDeviceData = [];
+        foreach ($devices as $device) {
+            $dataByTimePeriod = collect([]);
+            foreach ($data as $key => $value) {
+                $dataByTimePeriod->push($value->where('device', $device)->avg('value'));
+            }
+            $allDeviceData[] = $dataByTimePeriod;
+            $chart->dataset($device, 'line', $dataByTimePeriod)->color('#6dbed6')->options([]);
+        }
+
+        return $chart;
+
+
     }
 
 }
