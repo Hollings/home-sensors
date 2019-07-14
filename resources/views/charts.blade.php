@@ -21,7 +21,7 @@
 
     </head>
     <body>
-        <div style="text-align:center">  <h3>{{ $current['humidity']->value }}% | {{ ($current['temperature']->value * 9/5) + 32  }} F</div>
+        <div style="text-align:center">  <h3>{{ $current['humidity']->value }}% | {{ ($current['temperature']->value F</div>
       
                     @foreach($charts as $title=>$chart)
  
