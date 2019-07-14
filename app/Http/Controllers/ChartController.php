@@ -12,6 +12,7 @@ class ChartController extends Controller
     public function index() {
    
     $devices = Datum::distinct('device')->pluck('device')->toArray();
+     sort($devices)
        $charts = [];
        $charts['humidity'] = $this->createChart('humidity', $devices);
        $charts['temperature'] = $this->createChart('temperature', $devices);
