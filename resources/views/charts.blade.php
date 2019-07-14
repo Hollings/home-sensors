@@ -23,16 +23,19 @@
     <body>
         <div style="text-align:center">  <h3>{{ $current['humidity']->value }}% | {{ ($current['temperature']->value * 9/5) + 32  }} F</div>
       
-                    @foreach($charts as $chart)
-
+                    @foreach($charts as $title=>$chart)
+ <h1>{{ $title }}</h1>
        <div class="chart-container"> {!! $chart->container() !!} </div>
+               <hr>
+
         @endforeach
 
 
 
 <!-- Chart.js -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" charset="utf-8"></script>
-        @foreach($charts as $chart)
+        @foreach($charts as $title => $chart)
+
         {!! $chart->script() !!}
         @endforeach
     </body>

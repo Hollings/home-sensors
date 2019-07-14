@@ -11,7 +11,7 @@ class ChartController extends Controller
     
     public function index() {
    
-    $devices = Datum::distinct('device')->pluck('device');
+    $devices = Datum::distinct('device')->pluck('device')->toArray();
        $charts = [];
        $charts['humidity'] = $this->createChart('humidity', $devices);
        $charts['temperature'] = $this->createChart('temperature', $devices);
@@ -44,12 +44,18 @@ class ChartController extends Controller
                 $dataByTimePeriod->push($value->where('device', $device)->avg('value'));
             }
             $allDeviceData[] = $dataByTimePeriod;
-            $chart->dataset($device, 'line', $dataByTimePeriod)->color('#6dbed6')->options([]);
+            $chart->dataset($device, 'line', $dataByTimePeriod)->color("#" . $this->stringToColorCode($device))->options([]);
         }
 
         return $chart;
 
 
+    }
+
+   private function stringToColorCode($str) {
+      $code = dechex(crc32($str));
+      $code = substr($code, 0, 6);
+      return $code;
     }
 
 }
