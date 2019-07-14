@@ -11,10 +11,10 @@ class ChartController extends Controller
     
     public function index() {
    
-      
-        $charts = [];
-       $charts['humidity'] = $this->createChart('humidity', ['Strut B', 'Strut D']);
-       $charts['temperature'] = $this->createChart('temperature', ['Strut B', 'Strut D']);
+    $devices = Datum::distinct('device')->pluck('device');
+       $charts = [];
+       $charts['humidity'] = $this->createChart('humidity', $devices);
+       $charts['temperature'] = $this->createChart('temperature', $devices);
 
         $current = ['humidity' => Datum::latest()->where('name','humidity')->first(), 'temperature' => Datum::latest()->where('name','temperature')->first()] ;
     	return view('charts', compact('charts','current'));
