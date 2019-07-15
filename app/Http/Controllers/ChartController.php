@@ -7,18 +7,33 @@ use App\Charts\Humidity;
 use App\Charts\Temperature;
 use App\Datum;
 use App\Device;
-
+use Carbon\Carbon;
 class ChartController extends Controller
 {
     
-    public function index($timePeriod = "H") {
+    public function index($timePeriod = "j-d%20g") {
     
+    if ($timePeriod == "h") {
+        $timePeriod = "j-d%20g";
+    }elseif ($timePeriod == "m") {
+        $timePeriod = "j-d%20g:i";
+    }elseif ($timePeriod == "d") {
+        $timePeriod = "j-d";
+    }
 
     $devices = Datum::distinct('device')->pluck('device')->toArray();
      sort($devices);
        $charts = [];
-       $charts['humidity'] = $this->createChart('humidity', $devices, $timePeriod);
-       $charts['temperature'] = $this->createChart('temperature', $devices, $timePeriod);
+       $charts['humidity'] = ($this->createChart('humidity', $devices, $timePeriod))->options( 
+            ['yAxis'=>
+                ['scale'=>true],
+            ]
+        );
+       $charts['temperature'] = $this->createChart('temperature', $devices, $timePeriod)->options( 
+            ['yAxis'=>
+                ['scale'=>true]
+            ]
+        );;
 
         $current = ['humidity' => Datum::latest()->where('name','humidity')->first(), 'temperature' => Datum::latest()->where('name','temperature')->first()] ;
     	return view('charts', compact('charts','current', 'deviceNames'));
@@ -26,19 +41,33 @@ class ChartController extends Controller
 
 
 
-    public function createChart(String $dataName, Array $devices, $groupBy = "H"){
+    public function createChart(String $dataName, Array $devices, $groupBy = "j-d%20g"){
         $deviceNames =  Device::all()->keyBy('hardware_name');
 
         $chart = new Temperature;
         $labels = collect([]);
-        $data = Datum::where('name', $dataName)->get()->groupBy(function($reg) use ($groupBy){
-            return date($groupBy ,strtotime($reg->created_at));
+
+        $data = Datum::where('name', $dataName)->get()->groupBy(function($date) use ($groupBy){
+           return Carbon::parse($date->created_at)->format($groupBy);
         });
+
+        // dump($data->count());
+        // if ($data->count() > 500) {
+        //     $i = 0;
+        //     foreach ($data as $key => $value) {
+        //         $i++;
+        //        if ($i % 2 == 0 || $i % 3 == 0 || $i % 4 == 0) {
+        //            unset($data[$key]);
+        //        }
+        //     }
+        // }
+        // dump($data->count());
+
 
         // Generate labels
         $hourlyData = collect([]);
         foreach ($data as $key => $value) {
-            $labels->push($value->first()->created_at->format('j-d g:00a'));
+            $labels->push($value->first()->created_at->format('j-d g:ia'));
         }
         $chart->labels($labels);
 
@@ -52,10 +81,7 @@ class ChartController extends Controller
             $allDeviceData[] = $dataByTimePeriod;
             $chart->dataset($deviceNames[$device]->alias ?? $device, 'line', $dataByTimePeriod)->color("#" . $this->stringToColorCode($device))->options([]);
         }
-
         return $chart;
-
-
     }
 
    private function stringToColorCode($str) {

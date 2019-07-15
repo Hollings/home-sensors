@@ -2,7 +2,7 @@
 
 namespace App\Charts;
 
-use ConsoleTVs\Charts\Classes\Chartjs\Chart;
+use ConsoleTVs\Charts\Classes\Echarts\Chart;
 
 class Humidity extends Chart
 {
