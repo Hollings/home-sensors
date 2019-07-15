@@ -14,7 +14,7 @@
 //  return view('combat');
 // });
 
-Route::get('/', 'ChartController@index');
+Route::get('/{timePeriod?}', 'ChartController@index');
 
 Route::get('/data', 'DatumController@index');
 Route::post('/data', 'DatumController@saveData');
