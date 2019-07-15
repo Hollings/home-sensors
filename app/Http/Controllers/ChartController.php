@@ -11,12 +11,12 @@ use Carbon\Carbon;
 class ChartController extends Controller
 {
     
-    public function index($timePeriod = "j-d%20g") {
+    public function index($timePeriod = "h") {
     
     if ($timePeriod == "h") {
-        $timePeriod = "j-d%20g";
+        $timePeriod = "j-d H";
     }elseif ($timePeriod == "m") {
-        $timePeriod = "j-d%20g:i";
+        $timePeriod = "j-d H:i";
     }elseif ($timePeriod == "d") {
         $timePeriod = "j-d";
     }
