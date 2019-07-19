@@ -11,7 +11,7 @@ use Carbon\Carbon;
 class ChartController extends Controller
 {
     
-    public function index($timePeriod = "h") {
+    public function index($timePeriod = "h", $previousDays = 7) {
     
     if ($timePeriod == "h") {
         $timePeriod = "j-d H";
@@ -24,12 +24,12 @@ class ChartController extends Controller
     $devices = Datum::distinct('device')->pluck('device')->toArray();
      sort($devices);
        $charts = [];
-       $charts['humidity'] = ($this->createChart('humidity', $devices, $timePeriod))->options( 
+       $charts['humidity'] = $this->createChart('humidity', $devices, $timePeriod, $previousDays)->options( 
             ['yAxis'=>
                 ['scale'=>true],
             ]
         );
-       $charts['temperature'] = $this->createChart('temperature', $devices, $timePeriod)->options( 
+       $charts['temperature'] = $this->createChart('temperature', $devices, $timePeriod, $previousDays)->options( 
             ['yAxis'=>
                 ['scale'=>true]
             ]
@@ -41,13 +41,13 @@ class ChartController extends Controller
 
 
 
-    public function createChart(String $dataName, Array $devices, $groupBy = "j-d%20g"){
+    public function createChart(String $dataName, Array $devices, $groupBy = "j-d%20g", $previousDays = 10){
         $deviceNames =  Device::all()->keyBy('hardware_name');
 
         $chart = new Temperature;
         $labels = collect([]);
 
-        $data = Datum::where('name', $dataName)->get()->groupBy(function($date) use ($groupBy){
+        $data = Datum::where('name', $dataName)->where( 'created_at', '>', Carbon::now()->subDays($previousDays))->get()->groupBy(function($date) use ($groupBy){
            return Carbon::parse($date->created_at)->format($groupBy);
         });
 
