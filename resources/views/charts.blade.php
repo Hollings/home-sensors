@@ -23,7 +23,8 @@
 
     </head>
     <body>
-        <div style="text-align:center">  <h3>{{ $current['humidity']->value }}% | {{ $current['temperature']->value}} F</div>
+        <div style="text-align:center">  <h3>{{ $current['humidity']->value }}% | {{ $current['temperature']->value}} F</h3>
+            <a href="/m/1">24h</a> | <a href="/h/7">7d</a> | <a href="/d/30">30d</a>
       
                     @foreach($charts as $title=>$chart)
  
