@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Datum;
+use App\Device;
 
 class DatumController extends Controller
 {
@@ -15,10 +16,10 @@ class DatumController extends Controller
 
     public function saveData(Request $request){
 
- 
+ 		$device = Device::where('hardware_name',$request->device)->first();
 		$d = new Datum;
 		$d->name='temperature';
-		$d->value=$request->temperature;
+		$d->value=$request->temperature + $device->temp_offset;
 		$d->device = $request->device;
 		$d->save();
 
