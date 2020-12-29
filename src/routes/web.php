@@ -16,3 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/{timePeriod?}/{previousDays?}', 'App\Http\Controllers\ChartController@index');
+
+Route::get('/data', 'DatumController@index');
+Route::post('/data', 'DatumController@saveData');
