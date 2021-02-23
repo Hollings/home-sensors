@@ -1,198 +1,62 @@
-# Laravel Docker Template
-Docker Compose template for rapid Laravel/PHP development.
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
-![bash](https://user-images.githubusercontent.com/10295466/56030094-b0ec6900-5d24-11e9-967f-259a9579dd70.png)
+<p align="center">
+<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+</p>
 
-Linux, OS X and Windows friendly.
+## About Laravel
 
-This Docker template is also suitable for any other PHP projects, feel free to modify Docker configuration as needed.
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-## Included services
-- Nginx
-- PHP 8.0.0
-- MySQL
-- Redis
-- Adminer
-- Redis Commander
-- Mailhog (Mailcatcher alternative)
+- [Simple, fast routing engine](https://laravel.com/docs/routing).
+- [Powerful dependency injection container](https://laravel.com/docs/container).
+- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+- [Robust background job processing](https://laravel.com/docs/queues).
+- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
+Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Project Setup
+## Learning Laravel
 
-### Prepare the Docker template
+Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-1. Clone this repo:
+If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-```
-git clone git@github.com:maxkostinevich/Laravel-Docker-Template.git yourproject
-cd yourproject
-rm -rf .git
-```
+## Laravel Sponsors
 
-To delete sample ```index.php``` file run ```rm -rf /src/public```
+We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
 
-2. Update project name in ```.env``` file
+### Premium Partners
 
-3. Build and run containers:
+- **[Vehikl](https://vehikl.com/)**
+- **[Tighten Co.](https://tighten.co)**
+- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
+- **[64 Robots](https://64robots.com)**
+- **[Cubet Techno Labs](https://cubettech.com)**
+- **[Cyber-Duck](https://cyber-duck.co.uk)**
+- **[Many](https://www.many.co.uk)**
+- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
+- **[DevSquad](https://devsquad.com)**
+- **[Curotec](https://www.curotec.com/)**
+- **[OP.GG](https://op.gg)**
 
-```
-docker-compose build
-docker-compose up
-```
+## Contributing
 
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-### Setting up existing project
+## Code of Conduct
 
-1. Put your project files into ```/src``` folder and update your project ```.env``` file:
+In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-```
-APP_URL: http://localhost:8080
-DB_HOST: mysql
-DB_PORT: 3306
-```
+## Security Vulnerabilities
 
-Note: webroot folder is set to ```/src/public```
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-2. Login into ```php-fpm``` container:
+## License
 
-- on Windows:
-
-```
-php.bat
-```
-- on Linux/OS X:
-
-```
-sh php.sh
-```
-
-and run all required commands, for example:
-
-```
-composer install
-php artisan migrate
-
-npm install
-npm run dev
-```
-
-If your ```APP_KEY``` is not generated yet, you may generate it by the following command:
-```
-php artisan key:generate
-```
-
-### Setting up new project
-
-To create new Laravel project simply login into ```php-fpm``` container using the following script:
-
-- on Windows:
-
-```
-php.bat
-```
-- on Linux/OS X:
-
-```
-sh php.sh
-```
-
-and create a new Laravel app using ```laravel new``` command.
-
-
-### Running containers in the background
-
-You may also run containers in the background using the following script:
-
-- on Windows:
-
-```
-serve.bat
-```
-
-- on Linux/OS X:
-
-```
-sh serve.sh
-```
-
-
-### Stop and delete containers
-
-
-To stop Docker containers run:
-
-```
-docker-compose stop
-```
-
-To delete Docker containers run:
-
-```
-docker-compose down
-```
-
-### Database Management
-
-For your convenience, Adminer is installed and available at ```http://localhost:6080```
-
-You may also login into ```mysql``` container using the following script:
-
-- on Windows:
-```
-mysql.bat
-```
-
-- on Linux/OSX:
-```
-sh mysql.sh
-```
-
-
-### Redis configuration
-
-To use Redis in your project,you'd need to install predis first:
-
-```
-composer require predis/predis
-```
-
-Then setup Redis connection in your ```.env``` file as follows:
-
-```
-REDIS_HOST=redis
-
-CACHE_DRIVER=redis
-SESSION_DRIVER=redis
-QUEUE_DRIVER=redis
-```
-
-For your convenience, Redis Commander is installed and available at ```http://localhost:6081```
-
-
-### Windows-only 
-
-**Phantom containers**
-
-In order to force stop all running containers you may need to run the following script: 
-```
-docker-stop.bat
-```
-
-**Make shorthand command**
-
-```
-make.bat appname
-```
-
-
-### Main Endpoints
-
-- App URL: ```http://localhost:8080```
-- Adminer: ```http://localhost:6080```
-- Redis Commander: ```http://localhost:6081```
-- MailHog: ```http://localhost:6082```
-
-
----
-### [MIT License](https://opensource.org/licenses/MIT)
-(c) 2020 [Max Kostinevich](https://maxkostinevich.com) - All rights reserved.
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Datum;
-use App\Device;
+use App\Models\Datum;
+use App\Models\Device;
 
 class DatumController extends Controller
 {

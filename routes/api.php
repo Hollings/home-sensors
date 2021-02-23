@@ -16,4 +16,4 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::post('/data', 'DatumController@saveData');
+Route::post('/data', 'App\Http\Controllers\DatumController@saveData');
